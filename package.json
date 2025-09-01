@@ -11,6 +11,7 @@
   "description": "Esse projeto consiste no desenvolvimento de uma API para cadastro de usuários c/ Node.js + EXPRESS",
   "dependencies": {
     "@prisma/client": "^6.15.0",
+    "cors": "^2.8.5",
     "express": "^5.1.0"
   },
   "devDependencies": {

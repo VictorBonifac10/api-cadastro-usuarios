@@ -14,9 +14,12 @@ datasource db {
 }
 
 model patients {
-  id String @id @default(auto()) @map("_id") @db.ObjectId //um id será criado automaticamente
-  name  String //caso haja um interrogação significa que o campo é opcional (pode ou não ser preenchido)
-  email String @unique //@unique significa que o e-mail não poderá se repitir
-  telefone String @unique
-  criadoEm DateTime @default(now())
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId //um id será criado automaticamente
+  cpf            String   @unique
+  name           String //caso haja um interrogação significa que o campo é opcional (pode ou não ser preenchido)
+  dataNascimento DateTime
+  telefone       String   @unique
+  email          String   @unique //@unique significa que o e-mail não poderá se repitir
+  planoSaude     String
+  criadoEm       DateTime @default(now())
 }
