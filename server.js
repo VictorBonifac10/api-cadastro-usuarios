@@ -23,14 +23,14 @@ app.use(cors())
 const PORT = process.env.PORT || 5000
 
 app.listen(PORT, async () => {
-  try {
-    // Faz uma query simples só para validar a conexão
-    await prisma.$connect()
-    console.log("✅ Conectado ao MongoDB Atlas via Prisma")
-    console.log(`🚀 Server rodando na porta ${PORT}`)
-  } catch (err) {
-    console.error("❌ Erro ao conectar no banco:", err)
-  }
+    try {
+        // Faz uma query simples só para validar a conexão
+        await prisma.$connect()
+        console.log("✅ Conectado ao MongoDB Atlas via Prisma")
+        console.log(`🚀 Server rodando na porta ${PORT}`)
+    } catch (err) {
+        console.error("❌ Erro ao conectar no banco:", err)
+    }
 })
 
 //------------------------------------------------------------------
@@ -97,17 +97,24 @@ app.get('/usuarios', async (req, res) => { // URL: http://localhost:3333/usuario
 //ROTA GET (BUSCA UM USUÁRIO ATRAVÉS DO CPF)
 //------------------------------------------------------------------
 
-app.get('/buscar/usuario/:cpf', async (req, res) => { // URL: http://localhost:3333/buscar/usuario/:id
+app.get('/buscar/usuario/:cpf', async (req, res) => {
+    try {
+        const cpf = req.params.cpf.replace(/\D/g, ''); // remove pontos e traços
 
-    const cpf = req.params.cpf.replace(/\D/g, ''); 
+        const user = await prisma.patients.findFirst({
+            where: { cpf }
+        });
 
-    const users = await prisma.patients.findUnique({
-        where: { cpf }
-    })
+        if (!user) {
+            return res.status(404).json({ error: "Usuário não encontrado" });
+        }
 
-    return res.status(200).json(users)
-
-})
+        return res.status(200).json(user);
+    } catch (error) {
+        console.error(error); // mostra o erro no console
+        return res.status(500).json({ error: "Erro interno", details: error.message });
+    }
+});
 
 //------------------------------------------------------------------
 //ROTA PUT (ATUALIZA OS DADOS DE UM USUÁRIO)
@@ -146,8 +153,8 @@ app.put('/usuarios/:cpf', async (req, res) => { // URL: http://localhost:3333/us
 //------------------------------------------------------------------
 
 app.delete('/usuarios/:cpf', async (req, res) => { // URL: http://localhost:3333/usuarios/:id
-    
-    const cpf = req.params.cpf.replace(/\D/g, ''); 
+
+    const cpf = req.params.cpf.replace(/\D/g, '');
 
     const userDeleted = await prisma.patients.delete({
         where: { cpf }
