@@ -6,13 +6,40 @@
 const express = require('express')
 const cors = require('cors')
 const { PrismaClient } = require('@prisma/client')
+const dotenv = require('dotenv')
+
+dotenv.config()
 
 const prisma = new PrismaClient()
-
 const app = express()
 
 app.use(express.json())
-app.use(cors()) // --> http:www.example.com.br
+app.use(cors())
+
+//------------------------------------------------------------------
+// INICIALIZA O SERVIDOR
+//------------------------------------------------------------------
+
+const PORT = process.env.PORT || 5000
+
+app.listen(PORT, async () => {
+  try {
+    // Faz uma query simples só para validar a conexão
+    await prisma.$connect()
+    console.log("✅ Conectado ao MongoDB Atlas via Prisma")
+    console.log(`🚀 Server rodando na porta ${PORT}`)
+  } catch (err) {
+    console.error("❌ Erro ao conectar no banco:", err)
+  }
+})
+
+//------------------------------------------------------------------
+//ROTA GET (SERVIDOR ONLINE)
+//------------------------------------------------------------------
+
+app.get("/", (req, res) => {
+    res.send("API está online ✅");
+});
 
 //------------------------------------------------------------------
 //VALIDACAO CPF
@@ -23,14 +50,6 @@ function validarCPF(cpf) {
     return cpf.length === 11   // garante que tem 11 dígitos
 
 }
-
-//------------------------------------------------------------------
-//ROTA GET (SERVIDOR ONLINE)
-//------------------------------------------------------------------
-
-app.get("/", (req, res) => {
-    res.send("API está online ✅");
-});
 
 //------------------------------------------------------------------
 //ROTA POST (CRIA UM NOVO USUÁRIO)
@@ -137,11 +156,3 @@ app.delete('/usuarios/:cpf', async (req, res) => { // URL: http://localhost:3333
 
 });
 
-//------------------------------------------------------------------
-//INICIALIZA O SERVIDOR
-//------------------------------------------------------------------
-const PORT = process.env.PORT || 3333;
-
-app.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}`);
-})
