@@ -99,7 +99,7 @@ app.get('/usuarios', async (req, res) => { // URL: http://localhost:3333/usuario
 
 app.get('/buscar/usuario/:cpf', async (req, res) => { // URL: http://localhost:3333/buscar/usuario/:id
 
-    const cpf = req.params.cpf
+    const cpf = req.params.cpf.replace(/\D/g, ''); 
 
     const users = await prisma.patients.findUnique({
         where: { cpf }
@@ -146,7 +146,8 @@ app.put('/usuarios/:cpf', async (req, res) => { // URL: http://localhost:3333/us
 //------------------------------------------------------------------
 
 app.delete('/usuarios/:cpf', async (req, res) => { // URL: http://localhost:3333/usuarios/:id
-    const cpf = req.params.cpf
+    
+    const cpf = req.params.cpf.replace(/\D/g, ''); 
 
     const userDeleted = await prisma.patients.delete({
         where: { cpf }
