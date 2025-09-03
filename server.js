@@ -25,6 +25,14 @@ function validarCPF(cpf) {
 }
 
 //------------------------------------------------------------------
+//ROTA GET (SERVIDOR ONLINE)
+//------------------------------------------------------------------
+
+app.get("/", (req, res) => {
+    res.send("API está online ✅");
+});
+
+//------------------------------------------------------------------
 //ROTA POST (CRIA UM NOVO USUÁRIO)
 //------------------------------------------------------------------
 
@@ -67,7 +75,7 @@ app.get('/usuarios', async (req, res) => { // URL: http://localhost:3333/usuario
 })
 
 //------------------------------------------------------------------
-//ROTA GET (BUSCA UM USUÁRIO ATRAVÉS DO ID)
+//ROTA GET (BUSCA UM USUÁRIO ATRAVÉS DO CPF)
 //------------------------------------------------------------------
 
 app.get('/buscar/usuario/:cpf', async (req, res) => { // URL: http://localhost:3333/buscar/usuario/:id
