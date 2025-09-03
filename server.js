@@ -140,6 +140,8 @@ app.delete('/usuarios/:cpf', async (req, res) => { // URL: http://localhost:3333
 //------------------------------------------------------------------
 //INICIALIZA O SERVIDOR
 //------------------------------------------------------------------
-app.listen(3333, () => {
-    console.log("Servidor rodando!")
+const PORT = process.env.PORT || 3333;
+
+app.listen(PORT, () => {
+    console.log(`Servidor rodando na porta ${PORT}`);
 })
