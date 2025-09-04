@@ -101,7 +101,7 @@ app.get('/buscar/usuario/:cpf', async (req, res) => {
     try {
         const cpf = req.params.cpf.replace(/\D/g, ''); // remove pontos e traços
 
-        const user = await prisma.patients.findFirst({
+        const user = await prisma.patients.findUnique({
             where: { cpf }
         });
 
