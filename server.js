@@ -20,7 +20,7 @@ app.use(cors())
 // INICIALIZA O SERVIDOR
 //------------------------------------------------------------------
 
-const PORT = process.env.PORT || 5000
+/*const PORT = process.env.PORT || 5000
 
 app.listen(PORT, async () => {
     try {
@@ -31,7 +31,9 @@ app.listen(PORT, async () => {
     } catch (err) {
         console.error("❌ Erro ao conectar no banco:", err)
     }
-})
+})*/
+
+app.listen(3333)// a variavel app será ouvida pela porta 3001
 
 //------------------------------------------------------------------
 //ROTA GET (SERVIDOR ONLINE)
