@@ -14,7 +14,7 @@ datasource db {
 }
 
 model patients {
-  cpf            String   @id @map("_id") @db.ObjectId
+  cpf            String   @id @map("_id")
   name           String
   email          String
   telefone       String
